@@ -1,0 +1,68 @@
+class Student:
+    def __init__(self, name, grades):
+        self.name = name
+        self.grades = grades
+
+    def get_average_grade(self):
+        if self.grades:
+            return sum(self.grades) / len(self.grades)
+        else:
+            return 0
+
+
+class AcademicGroup:
+    def __init__(self):
+        self.students = []
+
+    def add_student(self, student):
+        self.students.append(student)
+
+    def remove_student(self, student):
+        if student in self.students:
+            self.students.remove(student)
+        else:
+            print(f"Student {student.name} is not in the group.")
+
+    def list_students_with_average_grades(self):
+        for student in self.students:
+            average_grade = student.get_average_grade()
+            print(f"Student: {student.name}, Average Grade: {average_grade}")
+
+
+# Приклад використання:
+group = AcademicGroup()
+
+while True:
+    print("1. Додати студента")
+    print("2. Видалити студента")
+    print("3. Показати список студентів")
+    print("4. Вийти")
+
+    choice = input("Виберіть опцію: ")
+
+    if choice == '1':
+        try:
+            name = input("Введіть ім'я студента: ")
+            grades_input = input("Введіть оцінки студента (через кому): ")
+            grades = [int(x) for x in grades_input.split(',')]
+            student = Student(name, grades)
+            group.add_student(student)
+        except ValueError:
+            print("Помилка: Неправильний формат оцінок.")
+    elif choice == '2':
+        name = input("Введіть ім'я студента, якого бажаєте видалити: ")
+        student_to_remove = None
+        for student in group.students:
+            if student.name == name:
+                student_to_remove = student
+                break
+        if student_to_remove:
+            group.remove_student(student_to_remove)
+        else:
+            print(f"Студента {name} не знайдено в групі.")
+    elif choice == '3':
+        group.list_students_with_average_grades()
+    elif choice == '4':
+        break
+    else:
+        print("Невірний вибір опції. Спробуйте ще раз.")
